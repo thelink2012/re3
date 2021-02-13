@@ -75,6 +75,9 @@
 #ifdef USE_OUR_VERSIONING
 #include "GitSHA1.h"
 #endif
+#ifdef MODLOADER
+#include "modloader.h"
+#endif
 
 GlobalScene Scene;
 
@@ -1531,6 +1534,10 @@ Render2dStuffAfterFade(void)
 void
 Idle(void *arg)
 {
+#ifdef MODLOADER
+	ModLoader_Tick();
+#endif
+
 #ifdef ASPECT_RATIO_SCALE
 	CDraw::SetAspectRatio(CDraw::FindAspectRatio());
 #endif
@@ -1733,6 +1740,10 @@ popret:	POP_MEMID();	// MEMID_RENDER
 void
 FrontendIdle(void)
 {
+#ifdef MODLOADER
+	ModLoader_Tick();
+#endif
+
 #ifdef ASPECT_RATIO_SCALE
 	CDraw::SetAspectRatio(CDraw::FindAspectRatio());
 #endif

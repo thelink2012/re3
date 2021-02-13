@@ -51,6 +51,10 @@
 #include "platform.h"
 #include "crossplatform.h"
 
+#ifdef MODLOADER
+#include "modloader.h"
+#endif
+
 #define MAX_SUBSYSTEMS		(16)
 
 
@@ -2030,6 +2034,14 @@ WinMain(HINSTANCE instance,
 	}
 #endif
 
+#ifdef MODLOADER
+	struct ModLoaderContext
+	{
+		ModLoaderContext(){ ModLoader_Init(); }
+		~ModLoaderContext() { ModLoader_Shutdown(); }
+	} modloader_ctx;
+#endif
+
 #ifdef USE_CUSTOM_ALLOCATOR
 	InitMemoryMgr();
 #endif
@@ -2285,8 +2297,13 @@ WinMain(HINSTANCE instance,
 					
 					case GS_INIT_LOGO_MPEG:
 					{
-						if ( !startupDeactivate )
+						if ( !startupDeactivate ) {
+							#ifdef MODLOADER
+						    ModLoader_PlayMovieInWindow_Logo(cmdShow, "movies\\Logo.mpg");
+							#else
 							PlayMovieInWindow(cmdShow, "movies\\Logo.mpg");
+							#endif
+						}
 						gGameState = GS_LOGO_MPEG;
 						TRACE("gGameState = GS_LOGO_MPEG;");
 						break;
@@ -2319,10 +2336,19 @@ WinMain(HINSTANCE instance,
 						CoUninitialize();
 #endif
 						
-						if ( CMenuManager::OS_Language == LANG_FRENCH || CMenuManager::OS_Language == LANG_GERMAN )
+						if ( CMenuManager::OS_Language == LANG_FRENCH || CMenuManager::OS_Language == LANG_GERMAN ) {
+							#ifdef MODLOADER
+						    ModLoader_PlayMovieInWindow_GTAtitles(cmdShow, "movies\\GTAtitlesGER.mpg");
+							#else
 							PlayMovieInWindow(cmdShow, "movies\\GTAtitlesGER.mpg");
-						else
-							PlayMovieInWindow(cmdShow, "movies\\GTAtitles.mpg");
+							#endif
+						} else {
+							#ifdef MODLOADER
+						    ModLoader_PlayMovieInWindow_GTAtitles(cmdShow, "movies\\GTAtitles.mpg");
+							#else
+						    PlayMovieInWindow(cmdShow, "movies\\GTAtitles.mpg");
+							#endif
+						}
 						
 						gGameState = GS_INTRO_MPEG;
 						TRACE("gGameState = GS_INTRO_MPEG;");

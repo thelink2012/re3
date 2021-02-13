@@ -2,6 +2,7 @@
 
 // disables (most) stuff that wasn't in original gta3.exe - check section at the bottom of this file
 //#define VANILLA_DEFINES
+#define MODLOADER
 
 enum Config {
 	NUMPLAYERS = 1,	// 4 on PS2
@@ -510,3 +511,5 @@ enum Config {
 #undef RADIO_SCROLL_TO_PREV_STATION
 #undef BIG_IMG
 #endif
+
+#undef NO_MOVIES
