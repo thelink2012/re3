@@ -512,4 +512,13 @@ enum Config {
 #undef BIG_IMG
 #endif
 
-#undef NO_MOVIES
+#ifdef MODLOADER
+#undef USE_TXD_CDIMAGE
+//#undef NO_MOVIES
+#undef ONE_THREAD_PER_CHANNEL
+#undef FLUSHABLE_STREAMING
+
+#if !defined(_WIN32) || defined(__LP64__) || defined(_WIN64)
+#error Mod Loader is currently only supported in win-x86 builds
+#endif
+#endif
