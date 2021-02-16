@@ -1830,6 +1830,12 @@ CStreaming::RequestModelStream(int32 ch)
 		ms_bLoadingBigModel = true;
 	}
 
+#ifdef MODLOADER
+	// No worries about the loop that follows this call because Mod Loader isn't
+	// interested in files that have adjascent files (not loading from cd image).
+	ModLoader_RegisterNextModelRead(streamId);
+#endif
+
 	// Load up to 4 adjacent files
 	haveBigFile = 0;
 	havePed = 0;
@@ -1887,7 +1893,6 @@ CStreaming::RequestModelStream(int32 ch)
 	// Now read the data
 	assert(!(ms_bLoadingBigModel && ch == 1));	// this would clobber the buffer
 #ifdef MODLOADER
-	ModLoader_RegisterNextModelRead(streamId);
 	if(ModLoader_CdStreamRead(ch, ms_pStreamingBuffer[ch], imgOffset + posn, totalSize) == STREAM_NONE)
 		debug("FUCKFUCKFUCK\n");
 #else
