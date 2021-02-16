@@ -181,4 +181,11 @@ ModLoader_CdStreamRead(int32_t channel, void *buffer, uint32_t offset, uint32_t 
 	return modloader_re3_share.re3_addr_table->CdStreamRead(channel, buffer, offset, size);
 }
 
+void
+ModLoader_OnRequestSpecialModel(uint32_t model_id, const char* model_name, uint32_t pos, uint32_t size)
+{
+	if(modloader_re3_share.callback_table->OnRequestSpecialModel)
+		return modloader_re3_share.callback_table->OnRequestSpecialModel(model_id, model_name, pos, size);
+}
+
 #endif

@@ -986,6 +986,9 @@ CStreaming::RequestSpecialModel(int32 modelId, const char *modelName, int32 flag
 	else
 		mi->SetTexDictionary(modelName);
 	ms_aInfoForModel[modelId].SetCdPosnAndSize(pos, size);
+	#ifdef MODLOADER
+	ModLoader_OnRequestSpecialModel(modelId, modelName, pos, size);
+	#endif
 	RequestModel(modelId, flags);
 }
 
