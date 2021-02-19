@@ -21,4 +21,12 @@ int32_t ModLoader_CdStreamRead(int32_t channel, void *buffer, uint32_t offset, u
 
 void ModLoader_OnRequestSpecialModel(uint32_t model_id, const char *model_name, uint32_t pos, uint32_t size);
 
+// unsafe because returns pointer to a static buffer
+const char*
+ModLoader_GetCdStreamPath_Unsafe(const char *filepath);
+const char*
+ModLoader_GetCdDirectoryPath_Unsafe(const char *filepath);
+
+
+
 #endif

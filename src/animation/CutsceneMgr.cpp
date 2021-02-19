@@ -21,6 +21,10 @@
 #include "ModelIndices.h"
 #include "TempColModels.h"
 
+#ifdef MODLOADER
+#include "modloader.h"
+#endif
+
 const struct {
 	const char *szTrackName;
 	int iTrackId;
@@ -185,7 +189,11 @@ CCutsceneMgr::LoadCutsceneData(const char *szCutsceneName)
 	CGame::DrasticTidyUpMemory(true);
 
 	strcpy(ms_cutsceneName, szCutsceneName);
+	#ifdef MODLOADER
+	file = CFileMgr::OpenFile(ModLoader_GetCdStreamPath_Unsafe("ANIM\\CUTS.IMG"), "rb");
+	#else
 	file = CFileMgr::OpenFile("ANIM\\CUTS.IMG", "rb");
+	#endif
 
 	// Load animations
 	sprintf(gString, "%s.IFP", szCutsceneName);

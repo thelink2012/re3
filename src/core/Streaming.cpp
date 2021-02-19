@@ -420,7 +420,11 @@ CStreaming::LoadCdDirectory(const char *dirname, int n)
 	char *dot;
 
 	lastID = -1;
+	#ifdef MODLOADER
+	fd = CFileMgr::OpenFile(ModLoader_GetCdDirectoryPath_Unsafe(dirname), "rb");
+	#else
 	fd = CFileMgr::OpenFile(dirname, "rb");
+	#endif
 	assert(fd > 0);
 
 	imgSelector = n<<24;

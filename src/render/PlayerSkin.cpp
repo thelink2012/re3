@@ -16,6 +16,10 @@
 #include "Lights.h"
 #include "MemoryMgr.h"
 
+#ifdef MODLOADER
+#include "modloader.h"
+#endif
+
 RpClump *gpPlayerClump;
 float gOldFov;
 
@@ -27,7 +31,11 @@ FindPlayerDff(uint32 &offset, uint32 &size)
 	int file;
 	CDirectory::DirectoryInfo info;
 
+	#ifdef MODLOADER
+	file = CFileMgr::OpenFile(ModLoader_GetCdDirectoryPath_Unsafe("models\\gta3.dir"), "rb");
+	#else
 	file = CFileMgr::OpenFile("models\\gta3.dir", "rb");
+	#endif
 
 	do {
 		if (!CFileMgr::Read(file, (char*)&info, sizeof(CDirectory::DirectoryInfo)))

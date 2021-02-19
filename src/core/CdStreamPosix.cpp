@@ -492,7 +492,11 @@ CdStreamAddImage(char const *path)
 	ASSERT(path != nil);
 	ASSERT(gNumImages < MAX_CDIMAGES);
 
+	#ifdef MODLOADER
+	gImgFiles[gNumImages] = open(ModLoader_GetCdStreamPath_Unsafe(path), _gdwCdStreamFlags);
+	#else
 	gImgFiles[gNumImages] = open(path, _gdwCdStreamFlags);
+	#endif
 
 	// Fix case sensitivity and backslashes.
 	if (gImgFiles[gNumImages] == -1) {

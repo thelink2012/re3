@@ -487,7 +487,11 @@ CdStreamAddImage(char const *path)
 	
 	SetLastError(0);
 	
+	#ifdef MODLOADER
+	gImgFiles[gNumImages] = CreateFile(ModLoader_GetCdStreamPath_Unsafe(path),
+	#else
 	gImgFiles[gNumImages] = CreateFile(path,
+	#endif
 	                                   GENERIC_READ,
 	                                   FILE_SHARE_READ,
 	                                   nil,

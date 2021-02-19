@@ -4,6 +4,10 @@
 #include "FileMgr.h"
 #include "Directory.h"
 
+#ifdef MODLOADER
+#include "modloader.h"
+#endif
+
 CDirectory::CDirectory(int32 maxEntries)
  : numEntries(0), maxEntries(maxEntries)
 {
@@ -20,8 +24,12 @@ CDirectory::ReadDirFile(const char *filename)
 {
 	int fd;
 	DirectoryInfo dirinfo;
-
+	
+	#ifdef MODLOADER
+	fd = CFileMgr::OpenFile(ModLoader_GetCdDirectoryPath_Unsafe(filename), "rb");
+	#else
 	fd = CFileMgr::OpenFile(filename, "rb");
+	#endif
 	while(CFileMgr::Read(fd, (char*)&dirinfo, sizeof(dirinfo)))
 		AddItem(dirinfo);
 	CFileMgr::CloseFile(fd);

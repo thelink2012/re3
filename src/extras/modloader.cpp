@@ -188,4 +188,20 @@ ModLoader_OnRequestSpecialModel(uint32_t model_id, const char* model_name, uint3
 		return modloader_re3_share.callback_table->OnRequestSpecialModel(model_id, model_name, pos, size);
 }
 
+const char*
+ModLoader_GetCdStreamPath_Unsafe(const char *filepath)
+{
+    if(modloader_re3_share.callback_table->GetCdStreamPath_Unsafe)
+        return modloader_re3_share.callback_table->GetCdStreamPath_Unsafe(filepath);
+    return filepath;
+}
+
+const char*
+ModLoader_GetCdDirectoryPath_Unsafe(const char *filepath)
+{
+	if(modloader_re3_share.callback_table->GetCdDirectoryPath_Unsafe)
+        return modloader_re3_share.callback_table->GetCdDirectoryPath_Unsafe(filepath);
+	return filepath;
+}
+
 #endif
