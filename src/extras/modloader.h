@@ -27,6 +27,16 @@ ModLoader_GetCdStreamPath_Unsafe(const char *filepath);
 const char*
 ModLoader_GetCdDirectoryPath_Unsafe(const char *filepath);
 
+const char*
+ModLoader_RegisterAndGetColFile_Unsafe(const char *filepath);
 
+const char*
+ModLoader_RegisterAndGetAtomicFile_Unsafe(const char *filepath);
+
+const char*
+ModLoader_RegisterAndGetClumpFile_Unsafe(const char *filepath);
+
+const char*
+ModLoader_RegisterAndGetTexDiction_Unsafe(const char *filepath);
 
 #endif

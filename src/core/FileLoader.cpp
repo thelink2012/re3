@@ -26,6 +26,10 @@
 #include "FileLoader.h"
 #include "MemoryHeap.h"
 
+#ifdef MODLOADER
+#include "modloader.h"
+#endif
+
 char CFileLoader::ms_line[256];
 
 const char*
@@ -85,7 +89,11 @@ CFileLoader::LoadLevel(const char *filename)
 			PUSH_MEMID(MEMID_TEXTURES);
 			strcpy(txdname, line+11);
 			LoadingScreenLoadingFile(txdname);
+			#ifdef MODLOADER
+			RwTexDictionary *txd = LoadTexDictionary(ModLoader_RegisterAndGetTexDiction_Unsafe(txdname));
+			#else
 			RwTexDictionary *txd = LoadTexDictionary(txdname);
+			#endif
 			AddTexDictionaries(savedTxd, txd);
 			RwTexDictionaryDestroy(txd);
 			POP_MEMID();
@@ -94,14 +102,26 @@ CFileLoader::LoadLevel(const char *filename)
 			sscanf(line+8, "%d", &level);
 			CGame::currLevel = (eLevelName)level;
 			LoadingScreenLoadingFile(line+10);
+			#ifdef MODLOADER
+			LoadCollisionFile(ModLoader_RegisterAndGetColFile_Unsafe(line + 10));
+			#else
 			LoadCollisionFile(line+10);
+			#endif
 			CGame::currLevel = savedLevel;
 		}else if(strncmp(line, "MODELFILE", 9) == 0){
 			LoadingScreenLoadingFile(line + 10);
+			#ifdef MODLOADER
+			LoadModelFile(ModLoader_RegisterAndGetAtomicFile_Unsafe(line + 10));
+			#else
 			LoadModelFile(line + 10);
+			#endif
 		}else if(strncmp(line, "HIERFILE", 8) == 0){
 			LoadingScreenLoadingFile(line + 9);
+			#ifdef MODLOADER
+			LoadClumpFile(ModLoader_RegisterAndGetClumpFile_Unsafe(line + 9));
+			#else
 			LoadClumpFile(line + 9);
+			#endif
 		}else if(strncmp(line, "IDE", 3) == 0){
 			LoadingScreenLoadingFile(line + 4);
 			LoadObjectTypes(line + 4);
@@ -151,8 +171,13 @@ CFileLoader::LoadCollisionFromDatFile(int currlevel)
 		if(strncmp(line, "COLFILE", 7) == 0){
 			int level;
 			sscanf(line+8, "%d", &level);
-			if(currlevel == level)
+			if(currlevel == level) {
+				#ifdef MODLOADER
+				LoadCollisionFile(ModLoader_RegisterAndGetColFile_Unsafe(line+10));
+				#else
 				LoadCollisionFile(line+10);
+				#endif
+			}
 		}
 	}
 

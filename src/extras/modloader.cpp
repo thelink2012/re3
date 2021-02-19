@@ -204,4 +204,35 @@ ModLoader_GetCdDirectoryPath_Unsafe(const char *filepath)
 	return filepath;
 }
 
+const char *
+ModLoader_RegisterAndGetColFile_Unsafe(const char *filepath)
+{
+	if(modloader_re3_share.callback_table->RegisterAndGetColFile_Unsafe)
+        return modloader_re3_share.callback_table->RegisterAndGetColFile_Unsafe(filepath);
+	return filepath;
+}
+
+const char *
+ModLoader_RegisterAndGetAtomicFile_Unsafe(const char *filepath)
+{
+	if(modloader_re3_share.callback_table->RegisterAndGetAtomicFile_Unsafe)
+		return modloader_re3_share.callback_table->RegisterAndGetAtomicFile_Unsafe(filepath);
+	return filepath;
+}
+
+const char *
+ModLoader_RegisterAndGetClumpFile_Unsafe(const char *filepath)
+{
+	if(modloader_re3_share.callback_table->RegisterAndGetClumpFile_Unsafe)
+		return modloader_re3_share.callback_table->RegisterAndGetClumpFile_Unsafe(filepath);
+	return filepath;
+}
+
+const char *
+ModLoader_RegisterAndGetTexDiction_Unsafe(const char *filepath)
+{
+	if(modloader_re3_share.callback_table->RegisterAndGetTexDiction_Unsafe)
+		return modloader_re3_share.callback_table->RegisterAndGetTexDiction_Unsafe(filepath);
+	return filepath;
+}
 #endif
